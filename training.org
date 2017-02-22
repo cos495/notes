@@ -1,0 +1,81 @@
+Training tricks
+Feb. 20, 2017
+
+* Backprop is math...Why reputation as a black art?
+** how to make training error lower?
+*** gradient learning is finicky
+**** adjust learning rate parameter
+**** many other variations
+*** time-consuming
+**** frontier nets take a week or two to train
+** how to make generalization error lower?
+*** training error is an optimistic estimate of generalization to inputs not seen during training
+*** two nets with the same training error may generalize to new inputs with differing performance
+**** model selection
+* bag of heuristics
+** some theoretical support (discuss next time)
+** popularity based on empirical justification (ymmv)
+
+* possibility of gradient bugs
+** bugs are notoriously difficult to find
+*** satisfying when cost goes down
+*** what if it goes down for a while, then suddenly goes up?
+**** maybe your learning rate parameter is too high
+**** maybe your gradient calculation is buggy
+** compare with finite difference approximation
+use double precision
+** try to make training error go to zero on small training set
+** auto-differentiation
+* minibatch training
+** each gradient update is based on some number of examples
+*** greater than one
+*** less than all examples
+** rationales
+*** reduced noise in gradient update
+*** more important: efficient parallelization
+**** update time scales sublinearly with minibatch size
+* pitfalls of gradient learning
+** local minima
+** canyon
+** plateau
+* local minima
+** may not be the main problem
+** in practice, the cost function decreases slower and slower but never gets stuck
+** noise from stochastic gradient descent may aid escape
+* canyon
+** what is the problem?
+*** gradient is almost perpendicular to the direction of the canyon
+*** if walls of canyon are steep, the step size should be small 
+*** but that makes learning slow
+** momentum
+*** averaging the gradient may find the direction of the canyon
+** diagonal rescaling
+*** independently tune learning rate parameters for all weights
+*** perfect if canyon were directed along one of the axes
+*** e.g. ADAM
+** centering
+*** subtracting mean of input from input 
+**** reduces canyon-ness for single layer perceptron
+*** hyperbolic tangent
+*** batch normalization
+** second order methods
+*** figure out direction of canyon from Hessian etc.
+*** out of favor because of computational cost
+* plateau
+** small f' leads to flatness of cost function
+** problem gets worse for deep networks
+** 90s heuristic
+*** set weights so that variances of activities are unity
+variance of weights = 1/fan-in
+** Xavier initialization
+*** set weights so that variances of backward pass deltas are unity
+variance of weights = 1/fan-out
+*** compromise 2/(fan-in + fan-out)
+** ReLU
+*** f' doesn't vanish for positive argument
+* annealing the learning rate parameter
+** needed due to stochasticity
+** theory: not too slow, not too fast
+1/t
+** in practice: manual annealing
+when validation error stops improving, reduce by 1/2

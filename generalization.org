@@ -1,0 +1,102 @@
+Feb. 22, 2017
+
+Generalization tricks
+
+* memorization vs. generalization
+** memorization = low error on training set
+** training error is generally optimistic; real world performance is worse
+** generalization = low error on examples not seen during training
+* ground truth annotation
+** humans should be trained and/or given specific instructions
+** problem: ambiguity
+** if each example is labeled by multiple humans
+*** use consensus to eliminate noise
+*** quantify disagreement to establish a baseline
+* test set
+** in practice: hold out some examples for a test set
+** optimistic about real-world performance
+** how large should the test set be?
+*** coin flip process
+*** fractional error in estimating bias p of coin sqrt(1/pN)
+* first commandment
+** Thou shalt not train on the test set
+* how to improve performance?
+** first impulse: increase the size of the network
+*** reduces training error
+*** if you're lucky, test error is lower too
+*** but only up to a point
+* intuition: overfitting
+** linear + noise
+** fit perfectly with high order polynomial
+* unsupervised learning
+** dimensionality reduction
+** we'll talk about that later on
+* best solution: more training data
+** may sound laborious
+** for applications that people really care about, it's worth it
+** real data
+** fake data (training set augmentation)
+*** small translations and rotations of MNIST images
+*** small nonaffine distortions
+* look at errors
+* model selection
+** compromise between
+*** fitting the data
+*** minimizing model complexity
+*** Occam's Razor
+*** Popper's falsifiability
+** architecture
+*** number of layers
+*** number of neurons per layer
+*** activation function
+** hyperparameters
+*** learning rate parameter
+*** momentum parameter
+*** initialization of weights and biases
+** regularization
+*** reduce model complexity
+*** while trying not to increase training error
+*** more hyperparameters
+* second commandment
+** Thou shalt not perform model selection on the test set
+* training, validation, test
+** training set
+*** parameters
+** validation set
+*** hyperparameters
+*** architecture
+** test set
+*** final score
+* early stopping
+** validation error can plateau or even increase while training error is still decreasing
+** stop before training error converges
+* weight decay
+** penalty term in cost function
+*** L1
+*** L2
+** constraint on parameters
+*** max norm
+* model averaging
+** if errors are uncorrelated, averaging helps
+* dropout
+
+* problem of generalization
+** philosophical: what makes learning possible?
+** practical: model selection
+* why is training error similar to test error?
+** distributional assumption
+** law of large numbers
+* uniform convergence
+* Vapnik-Chervonenkis theory
+* perceptron has limited "capacity" for memorization
+** can represent a vanishingly small fraction of boolean functions
+** this is key for generalization
+* number of dichotomies on m points
+** Schlafli's formula
+** 2^m for small $m$
+** m^d for large $m$
+* model selection based on theory
+** structural risk minimization
+** Akaike information criterion
+** empirical error + model complexity
+
